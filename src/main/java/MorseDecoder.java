@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.OptionalInt;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MorseDecoder {
@@ -51,11 +53,12 @@ public class MorseDecoder {
     }
 
     public static void main(String[] args) {
-        final String MORSE_STREAM = "00000000110110110011100000111111000111111001111110000000"; //H
+//        final String MORSE_STREAM = "00000000110110110011100000111111000111111001111110000000"; //H
+          final String MORSE_STREAM = "110110110011100000111111000111111001111110000000111011111111011101110000000110001111110000011111100111111000000001100001101111111101110111000000110111"; //HO
 //        final String MORSE_STREAM = "101101"; //H
-//        final String MORSE_STREAM = "110"; //H
+//        final String MORSE_STREAM = "11101111111101110111"; //H
         MorseDecoder m = new MorseDecoder();
-        m.decodeBitsToMorse(MORSE_STREAM);
+        System.out.println("format -> " + m.decodeBitsToMorse(MORSE_STREAM));
     }
 
     public String decodeBitsToMorse(String bitStream) {
@@ -92,7 +95,7 @@ public class MorseDecoder {
                 .orElse(0);
 
 
-        List<String> pulsos = new ArrayList<>();
+        List<String> pulsoList = new ArrayList<>();
         String previousBit = "";
         String sequencia = "";
         for (int i = 0; i < bitsArray.length; i++) {
@@ -108,21 +111,56 @@ public class MorseDecoder {
             if (currentBit.equals(previousBit)) {
                 sequencia = sequencia + currentBit;
                 previousBit = currentBit;
-                continue;
+
+                if (i < (bitsArray.length - 1)) {
+                    continue;
+                }
+
             } else {
-                pulsos.add(sequencia);
+                pulsoList.add(sequencia);
                 sequencia = currentBit;
                 previousBit = currentBit;
             }
 
             if ((bitsArray.length - 1) == i) {
-                pulsos.add(sequencia);
+                pulsoList.add(sequencia);
             }
 
         }
 
-        pulsos.stream().forEach(System.out::println);
+        pulsoList.stream().forEach(System.out::println);
 
-        return null;
+        String[] pulsos = new String[pulsoList.size()];
+        pulsos = pulsoList.toArray(pulsos);
+
+        int avgPause = (maxPause + minPause) / 2;
+        int avgPulse = (maxPulse + minPulse) / 2;
+
+        List<String> words = new ArrayList<>();
+        String decoded = "";
+        for (int i = 0; i < pulsos.length; i++) {
+            String pulso = pulsos[i];
+
+
+            if (pulso.startsWith("0")) {
+                if (pulso.length() >= avgPause) {
+                    decoded += " ";
+                } else {
+                    decoded += "";
+                }
+            }
+
+            if (pulso.startsWith("1")) {
+                if (pulso.length() < avgPulse) {
+                   decoded += ".";
+                } else {
+                    decoded += "-";
+                }
+            }
+        }
+
+        return decoded;
     }
+
+
 }
