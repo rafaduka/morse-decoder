@@ -43,7 +43,7 @@ public class MorseControllerTest {
     public void testText2Morse() throws Exception {
         Text2MorseRequest request = new Text2MorseRequest();
         request.setText(MorseDecoderTextToMorseImplTest.INPUT);
-        mock.perform(post("/api/v1/translate/2text")
+        mock.perform(post("/api/v1/decoder/text2morse")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(request))
                 .accept(MediaType.APPLICATION_JSON))
@@ -55,7 +55,7 @@ public class MorseControllerTest {
     public void testMorse2Text() throws Exception {
         Morse2TextRequest request = new Morse2TextRequest();
         request.setText(MorseDecoderMorseToTextImplTest.INPUT);
-        mock.perform(post("/api/v1/translate/2morse")
+        mock.perform(post("/api/v1/decoder/morse2text")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(request))
                 .accept(MediaType.APPLICATION_JSON))
@@ -67,7 +67,7 @@ public class MorseControllerTest {
     public void testBits2Morse() throws Exception {
         Bits2MorseRequest request = new Bits2MorseRequest();
         request.setText(MorseDecoderBitsToMorseImplTest.INPUT);
-        mock.perform(post("/api/v1/translate/bits2morse")
+        mock.perform(post("/api/v1/decoder/bits2morse")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(request))
                 .accept(MediaType.APPLICATION_JSON))
