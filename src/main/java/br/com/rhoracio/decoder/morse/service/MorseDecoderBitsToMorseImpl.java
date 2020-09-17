@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import br.com.rhoracio.decoder.morse.domain.request.DecoderRequest;
+import br.com.rhoracio.decoder.morse.domain.request.Bits2MorseRequest;
 import br.com.rhoracio.decoder.morse.domain.response.DecoderResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,17 +13,18 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service("bits2MorseService")
 @RequiredArgsConstructor
-public class MorseDecoderBitsToMorseImpl implements MorseDecoder {
+public class MorseDecoderBitsToMorseImpl implements MorseDecoder<Bits2MorseRequest> {
 
-    public static final String LONG_PULSE = "-";
-    public static final String SHORT_PULSE = ".";
-    public static final String SHORT_SPACE = "";
-    public static final String LONG_SPACE = " ";
+    public static final String DASH = "-";
+    public static final String DOT = ".";
+    public static final String EMPTY_SPACE = "";
+    public static final String MEDIUM_SPACE = " ";
+    public static final String LONG_SPACE = "  ";
     public static final String BIT_PULSE = "1";
     public static final String BIT_PAUSE = "0";
 
     @Override
-    public DecoderResponse decode(DecoderRequest request) {
+    public DecoderResponse decode(final Bits2MorseRequest request) {
         String input = request.getText().trim();
         ;
 
@@ -66,8 +67,10 @@ public class MorseDecoderBitsToMorseImpl implements MorseDecoder {
             String pulso = pulsos[i];
 
             if (pulso.startsWith(BIT_PAUSE)) {
-                if (pulso.length() <= avgPause) {
-                    output += SHORT_SPACE;
+                if (pulso.length() < avgPause) {
+                    output += EMPTY_SPACE;
+                } else if(pulso.length() >= avgPause && pulso.length() < maxPause) {
+                    output += MEDIUM_SPACE;
                 } else {
                     output += LONG_SPACE;
                 }
@@ -75,11 +78,12 @@ public class MorseDecoderBitsToMorseImpl implements MorseDecoder {
 
             if (pulso.startsWith(BIT_PULSE)) {
                 if (pulso.length() <= avgPulse) {
-                    output += SHORT_PULSE;
+                    output += DOT;
                 } else {
-                    output += LONG_PULSE;
+                    output += DASH;
                 }
             }
+
         }
 
         return new DecoderResponse(output.trim());
@@ -94,7 +98,7 @@ public class MorseDecoderBitsToMorseImpl implements MorseDecoder {
 
         int start = 0, end = input.length() -1;
         while(start < input.length() && input.charAt(start) == '0') start++;
-        while(end >= 0 && input.charAt(end) == '0') end --;
+        while(end >= 0 && input.charAt(end) == '0') end--;
 
         for (int i = start; i <= end; i++) {
 
@@ -110,14 +114,15 @@ public class MorseDecoderBitsToMorseImpl implements MorseDecoder {
                 sequencia = sequencia + currentBit;
                 previousBit = currentBit;
 
-                if (i <= end) {
-                    continue;
+                if (i == end) {
+                    pulsoList.add(sequencia);
+                    break;
                 }
 
             } else {
                 pulsoList.add(sequencia);
                 sequencia = currentBit;
-                previousBit = currentBit;
+                 previousBit = currentBit;
             }
 
             if (end == i) {
@@ -126,43 +131,6 @@ public class MorseDecoderBitsToMorseImpl implements MorseDecoder {
         }
 
         return pulsoList;
-    }
-
-    public int getTimingFromBitSentence(String bitSentence) {
-
-        int ret = 9999;
-        String lastChar = "0";
-        int count = 0;
-
-        String[] bitArr = bitSentence.split("");
-        for (int i = 0; i < bitArr.length; i++) {
-            if (bitArr[i].equals("1")) {
-                count++;
-                lastChar = "1";
-            } else if (bitArr[i].equals("0")) {
-                if (lastChar == "1") {
-                    if (count < ret) {
-                        ret = count;
-                    }
-                }
-                lastChar = "0";
-                count = 0;
-            }
-        }
-
-        return ret;
-    }
-
-    public String shrinkBitSentence(String bitSentence, int timing) {
-        String ret = "";
-        String[] bitArr = bitSentence.split("");
-        for (int i = 0; i < bitArr[i].length(); i++) {
-            if (i % timing == 0) {
-                ret += bitArr[i];
-            }
-        }
-
-        return ret;
     }
 
 }

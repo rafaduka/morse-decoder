@@ -1,7 +1,7 @@
 package br.com.rhoracio.decoder.morse.service;
 
 import br.com.rhoracio.decoder.morse.domain.MorseDictionary;
-import br.com.rhoracio.decoder.morse.domain.request.DecoderRequest;
+import br.com.rhoracio.decoder.morse.domain.request.Morse2TextRequest;
 import br.com.rhoracio.decoder.morse.domain.response.DecoderResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service("morseToTextService")
 @RequiredArgsConstructor
-public class MorseDecoderMorseToTextImpl implements MorseDecoder {
+public class MorseDecoderMorseToTextImpl implements MorseDecoder<Morse2TextRequest> {
 
     public static final String SPACE_BETWEEN_CHAR = "";
     public static final String SPACE_BETWEEN_MORSE_CODE = " ";
     public static final int ZERO = 0;
 
     @Override
-    public DecoderResponse decode(DecoderRequest request) {
+    public DecoderResponse decode(final Morse2TextRequest request) {
         String input = request.getText().trim();
         String[] morseArray =  input.split("\\s{1}");
 

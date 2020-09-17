@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+api:
+  metadata:
+    title: Morse Decoder
+    description: API responsável pela lógica contida na codificação/decodificação para morse.
+    version: 1.0.0
+
+message:
+  validation:
+    onlynumber:
