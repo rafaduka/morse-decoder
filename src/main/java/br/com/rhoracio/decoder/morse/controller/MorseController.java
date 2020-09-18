@@ -6,7 +6,7 @@ import br.com.rhoracio.decoder.morse.domain.request.Bits2MorseRequest;
 import br.com.rhoracio.decoder.morse.domain.request.Text2MorseRequest;
 import br.com.rhoracio.decoder.morse.domain.request.Morse2TextRequest;
 import br.com.rhoracio.decoder.morse.domain.response.DecoderResponse;
-import br.com.rhoracio.decoder.morse.service.MorseDecoder;
+import br.com.rhoracio.decoder.morse.service.Decoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MorseController {
 
-    private final MorseDecoder<Bits2MorseRequest> bits2MorseService;
-    private final MorseDecoder<Morse2TextRequest> morseToTextService;
-    private final MorseDecoder<Text2MorseRequest> textToMorseService;
+    private final Decoder<Bits2MorseRequest> bits2MorseService;
+    private final Decoder<Morse2TextRequest> morseToTextService;
+    private final Decoder<Text2MorseRequest> textToMorseService;
 
     @PostMapping(path = "/morse2text")
     public ResponseEntity<DecoderResponse> decoderToText(@Valid @RequestBody Morse2TextRequest request) {

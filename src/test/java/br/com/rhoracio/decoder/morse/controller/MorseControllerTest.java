@@ -7,9 +7,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import br.com.rhoracio.decoder.morse.domain.request.Bits2MorseRequest;
 import br.com.rhoracio.decoder.morse.domain.request.Morse2TextRequest;
 import br.com.rhoracio.decoder.morse.domain.request.Text2MorseRequest;
-import br.com.rhoracio.decoder.morse.service.MorseDecoderBitsToMorseImplTest;
-import br.com.rhoracio.decoder.morse.service.MorseDecoderMorseToTextImplTest;
-import br.com.rhoracio.decoder.morse.service.MorseDecoderTextToMorseImplTest;
+import br.com.rhoracio.decoder.morse.service.DecoderBitsToImplTest;
+import br.com.rhoracio.decoder.morse.service.DecoderToTextImplTest;
+import br.com.rhoracio.decoder.morse.service.DecoderTextToImplTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,36 +42,36 @@ public class MorseControllerTest {
     @Test
     public void testText2Morse() throws Exception {
         Text2MorseRequest request = new Text2MorseRequest();
-        request.setText(MorseDecoderTextToMorseImplTest.INPUT);
+        request.setText(DecoderTextToImplTest.INPUT);
         mock.perform(post("/api/v1/decoder/text2morse")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(request))
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.response").value(MorseDecoderTextToMorseImplTest.EXPECTED))
+                .andExpect(jsonPath("$.response").value(DecoderTextToImplTest.EXPECTED))
         .andExpect(status().isOk());
     }
 
     @Test
     public void testMorse2Text() throws Exception {
         Morse2TextRequest request = new Morse2TextRequest();
-        request.setText(MorseDecoderMorseToTextImplTest.INPUT);
+        request.setText(DecoderToTextImplTest.INPUT);
         mock.perform(post("/api/v1/decoder/morse2text")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(request))
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.response").value(MorseDecoderMorseToTextImplTest.EXPECTED))
+                .andExpect(jsonPath("$.response").value(DecoderToTextImplTest.EXPECTED))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testBits2Morse() throws Exception {
         Bits2MorseRequest request = new Bits2MorseRequest();
-        request.setText(MorseDecoderBitsToMorseImplTest.INPUT);
+        request.setText(DecoderBitsToImplTest.INPUT);
         mock.perform(post("/api/v1/decoder/bits2morse")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(request))
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.response").value(MorseDecoderBitsToMorseImplTest.EXPECTED))
+                .andExpect(jsonPath("$.response").value(DecoderBitsToImplTest.EXPECTED))
                 .andExpect(status().isOk());
     }
 }

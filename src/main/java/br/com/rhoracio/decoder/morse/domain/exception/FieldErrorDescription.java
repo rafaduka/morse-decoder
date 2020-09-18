@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class FieldErrorDescription {
 
-	@ApiModelProperty(example = "consulta")
+	@ApiModelProperty(example = "Campo que ocorreu o erro")
 	private String field;
 
 	@ApiModelProperty(example = "Informações inválidas sobre consulta.")

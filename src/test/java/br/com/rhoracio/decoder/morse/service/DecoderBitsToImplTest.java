@@ -7,7 +7,7 @@ import br.com.rhoracio.decoder.morse.domain.response.DecoderResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class MorseDecoderBitsToMorseImplTest {
+public class DecoderBitsToImplTest {
 
     public static final String EXPECTED = ".... ---  .-..  .- --  . .-.. ..";
     public static final String INPUT =  "000000001101101100111"         +   //H
@@ -21,13 +21,13 @@ public class MorseDecoderBitsToMorseImplTest {
                                         "00000011011100000000000"           //I
                                         ;
 
-    private MorseDecoder decoder;
+    private Decoder decoder;
     private Bits2MorseRequest request;
 
 
     @BeforeEach
     void setUp() {
-        decoder = new MorseDecoderBitsToMorseImpl();
+        decoder = new DecoderBitsToMorseImpl();
         request = createDecoderRequest();
     }
 

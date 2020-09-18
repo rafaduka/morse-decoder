@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service("bits2MorseService")
 @RequiredArgsConstructor
-public class MorseDecoderBitsToMorseImpl implements MorseDecoder<Bits2MorseRequest> {
+public class DecoderBitsToMorseImpl implements Decoder<Bits2MorseRequest> {
 
     public static final String DASH = "-";
     public static final String DOT = ".";
@@ -26,7 +26,6 @@ public class MorseDecoderBitsToMorseImpl implements MorseDecoder<Bits2MorseReque
     @Override
     public DecoderResponse decode(final Bits2MorseRequest request) {
         String input = request.getText().trim();
-        ;
 
         List<String> pulsoList = joinUntilDifferentOcurrence(input);
         String inputWithoutNoise = String.join("", pulsoList);
@@ -63,6 +62,7 @@ public class MorseDecoderBitsToMorseImpl implements MorseDecoder<Bits2MorseReque
 
         String output = "";
 
+        // Corrige a frequência de envios que não é necessariamente constante
         for (int i = 0; i < pulsos.length; i++) {
             String pulso = pulsos[i];
 
@@ -89,6 +89,19 @@ public class MorseDecoderBitsToMorseImpl implements MorseDecoder<Bits2MorseReque
         return new DecoderResponse(output.trim());
     }
 
+    /**
+     * Cria uma sequencia de inputs até a próxima ocorrência, Exemplo: 000110100
+     * Elimina ruído de pausa do início e fim dos bits.
+     * <p>
+     *      index 0 - 000 (ruído é removido)
+     *      index 1 - 11
+     *      index 2 - 0
+     *      index 3 - 1
+     *      index 4 - 00 (ruído é removido)
+     * </p>
+     * @param input
+     * @return Retorna uma lista das sequencias de pulsos e pausas
+     */
     private List<String> joinUntilDifferentOcurrence(String input) {
 
         String[] bitsArray = input.split("");

@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Tabela de código morse com o respectivo letra do alfabeto
+ * @author Rafael Horácio
+ */
 public final class MorseDictionary {
 
     private final static Map<String, String> morseHashMap = new HashMap<>();
@@ -53,6 +57,14 @@ public final class MorseDictionary {
         return morseHashMap.get(morseKey);
     }
 
+    /**
+     * Inverte o hashmap para retornar o código morse.
+     * Apesar de ter menos performance, do que criar um novo hashmap, garantimos que o hashmap sempre será centralizado
+     * para facilitar adições de novos valores e não perdemos a sincronia com 2 hashmaps
+     *
+     * @param letter Letra do alfabeto
+     * @return Código Morse de acordo a Letra correspondente
+     */
     public static String getMorseByTextKey(final String letter) {
                 return morseHashMap.entrySet()
                         .stream()

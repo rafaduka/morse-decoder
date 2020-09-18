@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service("morseToTextService")
 @RequiredArgsConstructor
-public class MorseDecoderMorseToTextImpl implements MorseDecoder<Morse2TextRequest> {
+public class DecoderMorseToTextImpl implements Decoder<Morse2TextRequest> {
 
     public static final String SPACE_BETWEEN_CHAR = "";
     public static final String SPACE_BETWEEN_MORSE_CODE = " ";

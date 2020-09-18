@@ -12,6 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DecoderResponse {
 
-    @ApiModelProperty(name = "Response do valor codificado")
+    @ApiModelProperty(name = "Response do valor decodificado")
     private String response;
 }

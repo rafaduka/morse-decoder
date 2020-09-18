@@ -9,17 +9,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class MorseDecoderTextToMorseImplTest {
+public class DecoderTextToImplTest {
 
     public static final String INPUT = "HOLA MELI";
     public static final String EXPECTED = ".... --- .-.. .-   -- . .-.. ..";
-    private MorseDecoder decoder;
+    private Decoder decoder;
     private Text2MorseRequest request;
 
 
     @BeforeEach
     void setUp() {
-        decoder = new MorseDecoderTextToMorseImpl();
+        decoder = new DecoderTextToMorseImpl();
         request = createDecoderRequest();
     }
 
