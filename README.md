@@ -18,7 +18,7 @@ Morse Decoder é uma API utilizada para avaliação de entrevista do Mercado Liv
 
 ## Installation
 
-###Local
+### Local
 ```bash
 git clone git@github.com:rafaduka/morse-decoder.git
 cd morse-decoder
@@ -26,7 +26,7 @@ cd morse-decoder
 ./gradlew bootRun
 ```
 
-###Profiles
+### Profiles
 | Ambiente      | Valor                                  | Tomcat Port   |
 | ------------- |:--------------------------------------:|:-------------:| 
 | [AWS]         | `-Dspring.profiles.active=prod`        | 5000          |
