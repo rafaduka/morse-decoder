@@ -52,6 +52,17 @@ public class MorseControllerTest {
     }
 
     @Test
+    public void testText2MorseWithInputInvalid() throws Exception {
+        Text2MorseRequest request = new Text2MorseRequest();
+        request.setText("01010");
+        mock.perform(post("/api/v1/decoder/text2morse")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(request))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void testMorse2Text() throws Exception {
         Morse2TextRequest request = new Morse2TextRequest();
         request.setText(DecoderToTextImplTest.INPUT);
@@ -64,6 +75,17 @@ public class MorseControllerTest {
     }
 
     @Test
+    public void testMorse2TextWithInvalidInput() throws Exception {
+        Morse2TextRequest request = new Morse2TextRequest();
+        request.setText("Wrong Value");
+        mock.perform(post("/api/v1/decoder/morse2text")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(request))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void testBits2Morse() throws Exception {
         Bits2MorseRequest request = new Bits2MorseRequest();
         request.setText(DecoderBitsToImplTest.INPUT);
@@ -73,5 +95,16 @@ public class MorseControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.response").value(DecoderBitsToImplTest.EXPECTED))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testBits2MorseWithInvalidInput() throws Exception {
+        Bits2MorseRequest request = new Bits2MorseRequest();
+        request.setText("Wrong Value");
+        mock.perform(post("/api/v1/decoder/bits2morse")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(request))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 }
